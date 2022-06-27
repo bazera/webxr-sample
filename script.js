@@ -20,11 +20,18 @@ document.addEventListener('DOMContentLoaded', () => {
     renderer.setPixelRatio(window.devicePixelRatio);
     document.body.appendChild(renderer.domElement);
 
-    const geometry = new THREE.BoxGeometry(0.06, 0.06, 0.06);
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(0, 0, -0.3);
-    scene.add(mesh);
+    const textureLoader = new THREE.TextureLoader();
+    const textureCube = textureLoader.load('./dintegra.png');
+
+    const cube = new THREE.Mesh(
+      new THREE.BoxGeometry(0.06, 0.06, 0.06),
+      new THREE.MeshStandardMaterial({
+        map: textureCube,
+      })
+    );
+
+    cube.position.set(0, 0, -0.3);
+    scene.add(cube);
 
     const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
     scene.add(light);
