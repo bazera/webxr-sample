@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loader = new GLTFLoader.GLTFLoader();
     loader.load('models/shiba/scene.gltf', (shiba) => {
-      scene.scale.set(1, 1, 1);
+      scene.scale.set(10, 10, 10);
       scene.add(shiba.scene);
       renderer.render(scene, camera);
     });
