@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import * as GLTFLoader from 'GLTFLoader';
 
 document.addEventListener('DOMContentLoaded', () => {
   const initialize = async () => {
@@ -12,29 +13,27 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera();
     const renderer = new THREE.WebGLRenderer({ alpha: true });
-
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
     document.body.appendChild(renderer.domElement);
 
-    const textureLoader = new THREE.TextureLoader();
-    const textureCube = textureLoader.load('./dintegra.png');
-
-    const cube = new THREE.Mesh(
-      new THREE.BoxGeometry(0.06, 0.06, 0.06),
-      new THREE.MeshStandardMaterial({
-        map: textureCube,
-      })
+    const camera = new THREE.PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      1,
+      500
     );
+    camera.position.set(0, 0, 100);
+    camera.lookAt(0, 0, 0);
 
-    cube.position.set(0, 0, -0.3);
-    scene.add(cube);
+    const scene = new THREE.Scene();
 
-    const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-    scene.add(light);
+    const loader = new GLTFLoader.GLTFLoader();
+    loader.load('models/shiba/scene.gltf', (shiba) => {
+      scene.scale.set(10, 10, 10);
+      scene.add(shiba.scene);
+      renderer.render(scene, camera);
+    });
 
     let currentSession = null;
     const start = async () => {
